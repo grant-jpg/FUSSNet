@@ -212,8 +212,8 @@ def pretrain(net, ema_net, optimizer, start_epoch=1):
                 save_net_opt(net, optimizer, save_path / 'best.pth', epoch)
                 save_net_opt(ema_net, optimizer, save_path / 'best_ema.pth', epoch)
 
-        train_loss, train_dice, ce_loss_, dice_loss_, loss_con_, loss_rad_ = \
-            AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter()
+        train_loss, train_dice= \
+            AverageMeter(), AverageMeter()
         net.train()
         for step, (img, lab) in enumerate(lab_loader):
             img, lab = img.cuda(), lab.cuda()
@@ -235,17 +235,10 @@ def pretrain(net, ema_net, optimizer, start_epoch=1):
             masks = get_mask(out[0])
             train_dice.update(statistic.dice_ratio(masks, lab), 1)
             train_loss.update(loss.item(), 1)
-            ce_loss_.update(ce_loss.item(), 1)
-            dice_loss_.update(dice_loss.item(), 1)
-            loss_con_.update(focal_loss.item(), 1)
-            loss_rad_.update(iou_loss.item(), 1)
 
             logging.info('epoch : %d, step : %d, train_loss: %.4f, train_dice: %.4f' % (epoch, step, train_loss.avg, train_dice.avg))
 
-            writer.add_scalar('pretrain/loss_ce', ce_loss_.avg, epoch * len(lab_loader) + step)
-            writer.add_scalar('pretrain/loss_dice', dice_loss_.avg, epoch * len(lab_loader) + step)
-            writer.add_scalar('pretrain/loss_con', loss_con_.avg, epoch * len(lab_loader) + step)
-            writer.add_scalar('pretrain/loss_rad', loss_rad_.avg, epoch * len(lab_loader) + step)
+
             writer.add_scalar('pretrain/loss_all', train_loss.avg, epoch * len(lab_loader) + step)
             writer.add_scalar('pretrain/train_dice', train_dice.avg, epoch * len(lab_loader) + step)
             update_ema_variables(net, ema_net, alpha, step)
