@@ -2,13 +2,13 @@
 
 This is the code repository for paper "A Novel Semi-supervised Training Framework Guided by Two Sources of Uncertainties for Medical Image Segmentation"
 
-The model training details can be found in `train_panc.py` file in `train` function. 
+Training details about the model can be found in `train_panc.py` file in `train` function.
 
 Folder `data_lists` specifies the train test split for pancreas dataset and left atrium dataset.
 
-Folder `preprocess` contains code used to preprocess pancreas dataset.
+Folder `preprocess` contains code used to preprocess pancreas dataset. If you are using raw pancreas dataset, you may need to preprocess data first by running `pancreas_preprocess.py`.
 
-Folder `trained_models` contains the model whose results are presented in our paper. 
+Folder `trained_models` contains the model whose results are presented in our paper.
 
 Files with suffix "panc" means it uses pancreas dataset while suffix "LA" means left atrium dataset
 
