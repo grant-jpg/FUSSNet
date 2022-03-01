@@ -12,7 +12,7 @@ class CrossEntropyLoss(nn.CrossEntropyLoss):
         return super().forward(logits, target)
 
 
-class StochasticSegmentationNetworkLossMCIntegral(nn.Module):
+class ResampleLossMCIntegral(nn.Module):
     def __init__(self, num_mc_samples: int = 1):
         super().__init__()
         self.num_mc_samples = num_mc_samples

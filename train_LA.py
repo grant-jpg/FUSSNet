@@ -19,7 +19,7 @@ from test_util import test_calculate_metric_LA
 from utils1 import statistic, ramps
 from utils1.loss import DiceLoss, SoftIoULoss
 from utils1.losses import FocalLoss
-from utils1.StochSegLoss import StochasticSegmentationNetworkLossMCIntegral
+from utils1.ResampleLoss import ResampleLossMCIntegral
 from vnet import VNet
 from aleatoric import StochasticDeepMedic
 import logging
@@ -292,7 +292,7 @@ def train(net, ema_net, optimizer, lab_loader, unlab_loader, test_loader):
 
     Focal = FocalLoss()
     Iou = SoftIoULoss(nclass = 2)
-    SSLoss = StochasticSegmentationNetworkLossMCIntegral(20) # 原来论文用的20
+    SSLoss = ResampleLossMCIntegral(20) # 原来论文用的20
 
     maxdice = 0
     maxdice1 = 0
